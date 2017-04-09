@@ -7,6 +7,7 @@
 #include "../Resources/resource.h"
 #include "window.h"
 #include "util.h"
+#include "monitor.h"
 
 INT_PTR CALLBACK DIAG_MAIN_CB(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DIAG_GET_CB(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -72,7 +73,7 @@ INT_PTR CALLBACK DIAG_MAIN_CB(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 				case IDC_SETBUTTON:
 					HWND hWnd = CreateDialogParam(Window::hResource, MAKEINTRESOURCE(DIAG_GET), hDlg, DIAG_GET_CB, 0);
 					if (!hWnd)
-						Util::ErrorExit(L"LoadIcons");
+						Util::ErrorExit(L"CreateSubDialog");
 					ShowWindow(hWnd, SW_SHOW);
 					break;
 			}
@@ -151,6 +152,7 @@ INT_PTR CALLBACK DIAG_GET_CB(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		case WM_CLOSE:
+			Monitor::setDeviceContext(hDlg);
 		case WM_DESTROY:
 			DestroyWindow(hDlg);
 			return TRUE;
